@@ -17,7 +17,7 @@
     
                     <!-- hidden fields -->
     
-                    <input type="hidden" name="action" id="updateproduct">
+                    <input type="hidden" name="action" id="updateproduct" value="updateproduct">
                     <input type="hidden" name="productId" id="productId">
                     
                 </div>
