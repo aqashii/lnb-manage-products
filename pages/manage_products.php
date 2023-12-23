@@ -14,9 +14,7 @@ $getAllproducts = $dbObj->displayAllproducts();
 
 ?>
 <div class="container py-2">
-    <!-- modal includes -->
-    <?php include 'viewp.php' ?>
-    <?php include 'editp.php' ?>
+
 
     <div class="row mb-3">
         <div class="col-10">
@@ -30,14 +28,17 @@ $getAllproducts = $dbObj->displayAllproducts();
             </div>
         </div>
         <div class="col-2">
-            <button class="btn btn-dark">
+           <a href="./?page=addproduct"><button  class="btn btn-dark">
                 Add New
-            </button>
+            </button></a> 
         </div>
     </div>
 </div>
 
 <div class="container mt-5">
+        <!-- modal includes -->
+    <?php include 'viewp.php' ?>
+    <?php include 'editp.php' ?>
     <table class="table" id="ptable">
         <thead class="table-dark text-center">
             <tr>
