@@ -21,11 +21,12 @@
                     <input type="hidden" name="productId" id="productId">
                     
                 </div>
+                </form>
             </div>
         </div>
     </div>
 
-</form>
+
 <script src="assets/js/script.js" >
 
 </script>
