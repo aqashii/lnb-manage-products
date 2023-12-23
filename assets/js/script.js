@@ -8,7 +8,7 @@ $(document).ready(function () {
         $.ajax({
             url : "/pages/ajax.php",
             type : "POST",
-            dataType : "Json",
+            dataType : "json",
             data : new FormData(this),
             processData : false,
             contentType : false,
