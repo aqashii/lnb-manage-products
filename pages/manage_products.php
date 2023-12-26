@@ -5,6 +5,9 @@ include("class.php");
 $pdo = dbConfig::connect();
 $dbObj = new database($pdo);
 
+$categories = $dbObj->getCategory();
+
+
 $getAllproducts = $dbObj->displayAllproducts();
 // $cattt = '101';
 // $getCategoryById = $dbObj->getCategoryById($cattt);
