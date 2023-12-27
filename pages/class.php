@@ -42,25 +42,23 @@ class database
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
-    function getCategoryById($catid){
+    function getCategoryById($catid)
+    {
         $query = "SELECT name FROM `categories` WHERE `id` = ?";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(1, $catid, PDO::PARAM_STR);
-        
+
         if ($stmt->execute()) {
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($result !== false) {
                 return $result;
-            }else{
+            } else {
                 return $result = "";
             }
-            
-        }else{
+        } else {
             $errorInfo = $stmt->errorInfo();
             echo $errorInfo[2];
         }
-        
-        
     }
     function deleteCategory($cid)
     {
@@ -77,7 +75,7 @@ class database
             echo $errorInfo[2];
         }
     }
-    function editCategory($cid,$cname)
+    function editCategory($cid, $cname)
     {
 
         $query = "UPDATE `categories` SET `name`= ? WHERE `id` = ?";
@@ -141,12 +139,34 @@ class database
         }
     }
 
-    function displayAllproducts(){
+    function displayAllproducts()
+    {
         $query = "SELECT * FROM `lb_products`";
         $stmt = $this->pdo->prepare($query);
         if ($stmt->execute()) {
-           $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-           return $result; 
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
         }
+    }
+
+    public function getRows($start = 0, $limit = 4)
+    {
+        $sql = "SELECT * FROM `lb_products` ORDER 
+        BY `id` DESC LIMIT {$start},{$limit} ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            $results = [];
+        }
+        return $results;
+    }
+    public function getCount(){
+        $sql = "SELECT count(*) as pcount FROM `lb_products`";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['pcount'];
     }
 }
