@@ -214,10 +214,10 @@ class Product
     //function to get single row
     public function getRow($field,$value){
         $sql = "SELECT * FROM {$this->tableName} WHERE 
-        {$field} = {$value}";
+        {$field} = :{$field}";
         // var_dump($sql);
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute();
+        $stmt->execute([":{$field}" => $value]);
         if ($stmt->rowCount() > 0) {
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
         } else {
