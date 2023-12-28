@@ -87,6 +87,11 @@ $(document).ready(function () {
             },
             success : function(response){
                 console.log(response);
+                if (response) {
+                    $("#addModal").modal("hide");
+                    $("#addform")[0].reset();
+
+                }
             },
             error : function(request,error){
                 console.log(arguments);
