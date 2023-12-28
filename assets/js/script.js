@@ -63,13 +63,13 @@ function getproduct() {
 $(document).ready(function () {
 
 
-    console.log("document is resdy loaded")
+    console.log("document is ready loaded")
     //calling getproducts function 
-    getproduct()
-    //edit Product
-    $(document).on("submit","#updateform",function(e){
+    // getproduct()
+    //Adding products
+    $(document).on("submit","#addform",function(event){
     console.log("form is resdy loaded")
-        e.preventDefault();
+        event.preventDefault();
         // ajax
         $.ajax({
             url : "./pages/ajax.php",
@@ -80,6 +80,10 @@ $(document).ready(function () {
             contentType : false,
             beforeSend : function(){
                 console.log("Waiting....Data..is..Loading");
+                // var formdata = new FormData(document.getElementById("addform"));
+                // formdata.forEach(function(value, key) {
+                //     console.log(key, value);
+                // });
             },
             success : function(response){
                 console.log(response);

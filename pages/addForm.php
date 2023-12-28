@@ -1,4 +1,4 @@
-<form id="addform" action="" method="POST">
+<form id="addform" action="" method="POST" enctype="multipart/form-data" >
     <div class="modal" tabindex="-1" id="addModal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -83,15 +83,15 @@
                     </div>
                     <div class=" col-md-6" id="soldPricediv" >
                         <label for="" class="form-label">Sold price</label>
-                        <input type="text" value="" name="p_sold_price" class="form-control" id="" required>
+                        <input type="text" value="" name="p_sold_price" class="form-control" id="">
                     </div>
                     <div class=" col-md-6" id="soldDatediv" >
                         <label for="" class="form-label">Sold date</label>
-                        <input type="text" value="" name="p_sold_date" class="form-control" id="" required>
+                        <input type="text" value="" name="p_sold_date" class="form-control" id="">
                     </div>
                     <div class=" col-md-12">
                         <label for="" class="form-label">Product Image</label>
-                        <input type="file" value="" name="p_image" class="form-control" id="" required>
+                        <input type="file" value="" name="p_photo" class="form-control" id="">
                     </div>
 
 
@@ -101,10 +101,10 @@
                     <button type="submit" class="btn btn-primary">Save</button>
 
 
-                    <!-- hidden fields -->
+                    <!-- hidden input fields -->
 
-                    <input type="hidden" name="action" id="updateproduct" value="updateproduct">
-                    <input type="hidden" name="productId" id="productId">
+                    <input type="hidden" name="action" id="addproduct" value="addproduct">
+                    <input type="hidden" name="productId" id="productId" value="">
 
                 </div>
             </div>

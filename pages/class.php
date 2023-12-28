@@ -171,15 +171,17 @@ class Product
             $fields = $placeholder = [];
             foreach ($data as $field => $value) {
                 $fields[] = $field;
-                $placeholder[] = ":{field}";
+                $placeholder[] = ":{$field}";
+                
             }
+            // var_dump($placeholder);
         }
         // $sql = "INSERT INTO {$this->tableName} (`cat_id`, `name`, `size`, `quality_code`, `color`, `drop_status`,
         // `sell_channel`, `brought_price`, `sell_price`,
         // `sold_price`, `sold_status`, `sold_date`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
             $sql = "INSERT INTO {$this->tableName} (". implode(',',
             $fields) .") VALUES (". implode(',',$placeholder).")";
-            
+            // var_dump($sql);
             $stmt = $this->pdo->prepare($sql);
             try{
                 $this->pdo->beginTransaction();
@@ -212,7 +214,8 @@ class Product
     //function to get single row
     public function getRow($field,$value){
         $sql = "SELECT * FROM {$this->tableName} WHERE 
-        {$field} = :{$field}";
+        {$field} = {$value}";
+        // var_dump($sql);
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         if ($stmt->rowCount() > 0) {
@@ -235,7 +238,7 @@ class Product
     //function to upload photo
     public function uploadPhoto($file){
         if (!empty($file)) {
-            $fileTempPath = $file['temp_name'];
+            $fileTempPath = $file['tmp_name'];
             $fileName = $file['name'];
             $fileType = $file['type'];
             $fileNameCmps = explode('.',$fileName);
@@ -244,7 +247,7 @@ class Product
             $allowedExtn = ["png","jpg","jpeg"];
 
             if (in_array($fileExtension,$allowedExtn)) {
-                $uploadFileDir = getcwd()."/uploads/";
+                $uploadFileDir = "../uploads/";
                 $destFilePath = $uploadFileDir . $newFileName ;
                 if (move_uploaded_file($fileTempPath,$destFilePath)) {
                     return $newFileName;
