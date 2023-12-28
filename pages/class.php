@@ -25,7 +25,6 @@ if (isset($_POST["ucid"]) && isset($_POST["ucname"])) {
     $dbObj->editCategory($ucid, $ucname);
 }
 
-
 class database
 {
     protected $pdo = null;
@@ -149,10 +148,58 @@ class database
         }
     }
 
+
+
+    public function update($data, $id)
+    {
+        $sql = "UPDATE `lb_products` SET ";
+    }
+}
+
+class Product
+{
+    protected $tableName = "lb_products";
+    protected $pdo = NULL ;
+    function __construct($pdo)
+    {
+        $this->pdo = $pdo;
+    }
+    // function to add products
+    public function add($data)
+    {
+        if (!empty($data)) {
+            $fields = $placeholder = [];
+            foreach ($data as $field => $value) {
+                $fields[] = $field;
+                $placeholder[] = ":{field}";
+            }
+        }
+        // $sql = "INSERT INTO {$this->tableName} (`cat_id`, `name`, `size`, `quality_code`, `color`, `drop_status`,
+        // `sell_channel`, `brought_price`, `sell_price`,
+        // `sold_price`, `sold_status`, `sold_date`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+            $sql = "INSERT INTO {$this->tableName} (". implode(',',
+            $fields) .") VALUES (". implode(',',$placeholder).")";
+            
+            $stmt = $this->pdo->prepare($sql);
+            try{
+                $this->pdo->beginTransaction();
+                $stmt->execute($data);
+                $lastInsertedId = $this->pdo->lastInsertId();
+                $this->pdo->commit();
+                return $lastInsertedId;
+
+            }catch (PDOException $e) {
+                echo "Error ". $e->getMessage();
+                $this->pdo->rollback();
+            }
+
+    }
+
+    //function to get rows
     public function getRows($start = 0, $limit = 4)
     {
-        $sql = "SELECT * FROM `lb_products` ORDER 
-        BY `id` DESC LIMIT {$start},{$limit} ";
+        $sql = "SELECT * FROM {$this->tableName} ORDER BY
+        DESC LIMIT {$start},{$limit} ";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         if ($stmt->rowCount() > 0) {
@@ -162,15 +209,53 @@ class database
         }
         return $results;
     }
-    public function getCount(){
-        $sql = "SELECT count(*) as pcount FROM `lb_products`";
+    //function to get single row
+    public function getRow($field,$value){
+        $sql = "SELECT * FROM {$this->tableName} WHERE 
+        {$field} = :{$field}";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        } else {
+            $result = [];
+        }
+        return $result;
+    }
+    //function to count no.of rows
+    public function getCount()
+    {
+        $sql = "SELECT count(*) as pcount FROM 
+        {$this->tableName}";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['pcount'];
     }
-    public function update($data,$id){
-        $sql = "UPDATE `lb_products` SET ";
+    //function to upload photo
+    public function uploadPhoto($file){
+        if (!empty($file)) {
+            $fileTempPath = $file['temp_name'];
+            $fileName = $file['name'];
+            $fileType = $file['type'];
+            $fileNameCmps = explode('.',$fileName);
+            $fileExtension = strtolower(end($fileNameCmps));
+            $newFileName = md5(time().$fileName).'.'.$fileExtension;
+            $allowedExtn = ["png","jpg","jpeg"];
+
+            if (in_array($fileExtension,$allowedExtn)) {
+                $uploadFileDir = getcwd()."/uploads/";
+                $destFilePath = $uploadFileDir . $newFileName ;
+                if (move_uploaded_file($fileTempPath,$destFilePath)) {
+                    return $newFileName;
+                }
+            }
+        }
 
     }
+    //function to update
+    //function to delete
+    //function to search
+
 }
+?>
