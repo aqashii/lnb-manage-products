@@ -23,8 +23,8 @@ if ($action =='getallproducts') {
         $productlist = [];
     }
     $total = $dbObj->getCount();
-    $prdArr=['count'=>$total,'products'=>$productlist];
-    echo json_encode($productlist);
+    $prdArr=['count'=>$total,'players'=>$productlist];
+    echo json_encode($prdArr);
     exit();
 }
 

@@ -47,7 +47,7 @@ function getproduct() {
             console.log(rows);
             if (rows) {
                 var productslist = "";
-                $.each(rows, function (index,product) {
+                $.each(rows.players, function (index,product) {
                     productslist += getproductrow(product);
                 });
                 

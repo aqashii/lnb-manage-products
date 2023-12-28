@@ -169,4 +169,8 @@ class database
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['pcount'];
     }
+    public function update($data,$id){
+        $sql = "UPDATE `lb_products` SET ";
+
+    }
 }
