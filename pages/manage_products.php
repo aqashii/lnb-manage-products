@@ -31,9 +31,10 @@ $getAllproducts = $dbObj->displayAllproducts();
             </div>
         </div>
         <div class="col-2">
-           <a href="./?page=addproduct"><button  class="btn btn-dark">
+    <?php include 'addForm.php' ?>
+           <button data-bs-toggle="modal" data-bs-target="#addModal" class="btn btn-dark">
                 Add New
-            </button></a> 
+            </button>
         </div>
     </div>
 </div>
