@@ -46,7 +46,8 @@ $getAllproducts = $dbObj->displayAllproducts();
     <table class="table" id="ptable">
         <thead class="table-dark text-center">
             <tr>
-                <th scope="col">ID</th>
+                <!-- <th scope="col">ID</th> -->
+                <th scope="col">Photo</th>
                 <th scope="col">Category Name</th>
                 <th scope="col">Name</th>
                 <th scope="col">Size</th>

@@ -79,7 +79,7 @@ if ($action == 'addproduct' && !empty($_POST)) {
     }
 }
 
-/*
+
 
 
 // get count of function and getallproducts action
@@ -91,18 +91,19 @@ if ($action =='getallproducts') {
     //start = 2-1=1 , 1*4 = ....4,5,6,7
     $start=($page-1)*$limit;
 
-    $products = $dbObj->getRows($start,$limit);
+    $products = $obj->getRows($start,$limit);
     if (!empty($products)) {
         $productlist = $products;  
     }else{
         $productlist = [];
     }
-    $total = $dbObj->getCount();
-    $prdArr=['count'=>$total,'players'=>$productlist];
+    // echo json_encode($productlist);
+    $total = $obj->getCount();
+    $prdArr=['count' => $total , 'players' => $productlist];
     echo json_encode($prdArr);
     exit();
 }
 
 
-*/
+
 ?>

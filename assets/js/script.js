@@ -4,7 +4,8 @@ function getproductrow(product) {
     var productRow = "";
     if(product){
         productRow = `<tr>
-        <td>${product.id}</td>
+        
+        <td><img src="uploads/${product.photo}"></td>
         <td>${product.cat_id}</td>
         <td>${product.name}</td>
         <td>${product.size}</td>
@@ -19,11 +20,11 @@ function getproductrow(product) {
         <td>${product.sold_date}</td>
         <td>
             <a href="#" class="me-3 viewp"  
-            data-bs-target="#viewpModal" title="View" data-bs-toggle="modal"><i class="fa-solid fa-eye text-success"></i></a>
+            data-bs-target="#viewpModal" data-id="${product.id}" title="View" data-bs-toggle="modal"><i class="fa-solid fa-eye text-success"></i></a>
             <a href="#" 
             data-bs-toggle="modal" data-bs-target="#editpModal" 
-            class="me-3 editp" title="Edit" ><i class="fa-solid fa-pen-to-square text-info"></i></a>
-            <a href="#" class="me-3 deletep" title="Delete" ><i class="fa-solid fa-trash-can text-danger"></i></a>
+            class="me-3 editp" data-id="${product.id}" title="Edit" ><i class="fa-solid fa-pen-to-square text-info"></i></a>
+            <a href="#" class="me-3 deletep" data-id="${product.id}" title="Delete" ><i class="fa-solid fa-trash-can text-danger"></i></a>
 
         </td>
 
@@ -33,7 +34,7 @@ function getproductrow(product) {
 }
 
 // get products
-function getproduct() {
+function getproducts() {
     var pageno=$("#currentpage").val();
     $.ajax({
         url : "./pages/ajax.php",
@@ -45,10 +46,11 @@ function getproduct() {
         },
         success : function (rows) {
             console.log(rows);
-            if (rows) {
+            if (rows.players) {
                 var productslist = "";
-                $.each(rows.players, function (index,product) {
+                $.each(rows.players, function(index,product) {
                     productslist += getproductrow(product);
+                    // console.log(product);
                 });
                 
                 $("#ptable tbody").html(productslist);
@@ -65,7 +67,7 @@ $(document).ready(function () {
 
     console.log("document is ready loaded")
     //calling getproducts function 
-    // getproduct()
+    getproducts()
     //Adding products
     $(document).on("submit","#addform",function(event){
     console.log("form is resdy loaded")
@@ -90,6 +92,7 @@ $(document).ready(function () {
                 if (response) {
                     $("#addModal").modal("hide");
                     $("#addform")[0].reset();
+                    getproducts()
 
                 }
             },

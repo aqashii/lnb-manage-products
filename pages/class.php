@@ -201,7 +201,8 @@ class Product
     public function getRows($start = 0, $limit = 4)
     {
         $sql = "SELECT * FROM {$this->tableName} ORDER BY
-        DESC LIMIT {$start},{$limit} ";
+        `id` DESC LIMIT {$start},{$limit} ";
+        // var_dump($sql);
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         if ($stmt->rowCount() > 0) {
