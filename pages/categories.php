@@ -10,6 +10,29 @@ $categories = $dbObj->getCategory();
 
 
 ?>
+<!-- search bar and addnew -->
+<div class="container py-2">
+<div class="row mb-3">
+    <div class="col-10">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text
+                 bg-dark"><i class="fa-solid text-light
+                  fa-magnifying-glass"></i></span>
+            </div>
+            <input type="text" name="" id="" class="form-control" placeholder="Search product...">
+        </div>
+    </div>
+    <div class="col-2">
+<?php include 'addCatForm.php' ?>
+       <button data-bs-toggle="modal" data-bs-target="#addCategoryModal" class="btn btn-dark">
+            Add New
+        </button>
+    </div>
+</div>
+</div>
+
+<!-- table of categories -->
 <div class="container">
     <h3>Categories</h3>
     <table class="table">
@@ -26,9 +49,6 @@ $categories = $dbObj->getCategory();
             <?php foreach ($categories as $key => $value) {
             ?>
                 <tr>
-
-
-
                     <th scope="row"><?= $value['id'] ?></th>
                     <td><?= $value['name'] ?>
                         <!-- Modal for Edit Category -->
@@ -57,9 +77,6 @@ $categories = $dbObj->getCategory();
                             </div>
                         </div>
                     </td>
-
-
-
                     <td><button id="edit-btn" type="button" data-bs-toggle="modal" data-bs-target="#editCategoryModal<?= $value['id'] ?>" class="btn btn-primary">Edit</button>
                         <button data-bs-target="#delconfirmbox<?= $value['id'] ?>" data-bs-toggle="modal" id="delete" type="button" class="btn btn-danger">Delete</button>
                         <!-- Delete Confirmation box modal -->
@@ -81,50 +98,16 @@ $categories = $dbObj->getCategory();
                             </div>
                         </div>
                     </td>
-
-
                 </tr>
             <?php } ?>
-
         </tbody>
     </table>
-
-
 </div>
+<!-- hidden inputs -->
+<input type="hidden" name="thispage" id="thispage" value="category-page" >
+
+<!-- show message div -->
 <div class="container">
-    <h4>Add Category</h4>
-
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
-        Add new
-    </button>
-
-    <!-- Modal for Add Category -->
-    <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add new category</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="" class="form-label">Category Name</label>
-                        <input name="cname" type="text" class="form-control" id="cname" required>
-
-                        <div id="check-validation" style="display: none;">
-                            Please provide name!
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" id="btn-add" onclick="addCategory()" data-bs-dismiss="" class="btn btn-primary">Add</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
         <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
@@ -139,123 +122,4 @@ $categories = $dbObj->getCategory();
     <div class="alert alert-success d-flex d-none align-items-center my-2" id="successMessage" role="alert">
 
     </div>
-
-
-
 </div>
-<script>
-    //Page reload function
-    function onReload() {
-
-        window.location.reload();
-
-    }
-    //Show success message function
-    function successMessage(message) {
-
-        var showSuccess = document.getElementById('successMessage');
-
-        showSuccess.classList.toggle('d-none', false);
-        showSuccess.innerHTML = `<svg class="bi flex-shrink-0 me-2 " width="24" height="24" role="img" aria-label="Success:">
-            <use xlink:href="#check-circle-fill" />
-        </svg>
-        <div>
-            ${message}
-        </div>`;
-
-        setTimeout(function() {
-
-            showSuccess.classList.add('d-done');
-
-        }, 3000);
-
-    }
-    //Add category to database
-    function addCategory() {
-
-        var cname = $('#cname').val();
-        if (cname != '') {
-
-            $.ajax({
-                type: "post",
-                url: "pages/class.php",
-                data: {
-                    catname: cname
-                },
-                success: function(data, status) {
-                    // console.log(status);
-                    $('#addCategoryModal').modal('hide');
-
-                    successMessage('Category added success');
-                    setTimeout(function() {
-
-                        onReload();
-                    }, 2000);
-
-                }
-            });
-        } else {
-            $('#check-validation').css({
-                'display': 'block',
-                'color': 'red'
-            })
-
-        }
-
-    }
-    //Delete Category
-    function delCategory(cid) {
-        var catid = cid;
-
-        $.ajax({
-            type: "post",
-            url: "pages/class.php",
-            data: {
-                cid: catid
-            },
-            success: function(data, status) {
-                $('#delconfirmbox' + catid).modal('hide');
-                successMessage('Category deleted success');
-                setTimeout(function() {
-
-                    onReload();
-                }, 2000);
-            }
-
-        })
-    }
-
-    //Edit category function
-    function editCategory(cid) {
-        // alert(id);
-        var ucatid = cid;
-        var ucname = $('#ucname' + ucatid).val();
-        if (ucname != '') {
-
-            $.ajax({
-                type: 'post',
-                url: 'pages/class.php',
-                data: {
-                    ucid: ucatid,
-                    ucname: ucname
-
-                },
-                success: function(data, status) {
-                    // console.log(data)
-                    $('#editCategoryModal' + ucatid).modal('hide');
-                    successMessage('Category updated success');
-                    setTimeout(function() {
-
-                        onReload();
-                    }, 3000);
-
-                }
-            })
-        } else {
-            $('#check-validation').css({
-                'display': 'block',
-                'color': 'red'
-            })
-        }
-    }
-</script>

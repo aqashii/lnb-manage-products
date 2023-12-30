@@ -49,3 +49,126 @@
 
                 </tr>
             <?php } ?>
+
+
+
+
+
+
+
+<script>
+    //Page reload function
+    function onReload() {
+
+        window.location.reload();
+
+    }
+    //Show success message function
+    function successMessage(message) {
+
+        var showSuccess = document.getElementById('successMessage');
+
+        showSuccess.classList.toggle('d-none', false);
+        showSuccess.innerHTML = `<svg class="bi flex-shrink-0 me-2 " width="24" height="24" role="img" aria-label="Success:">
+            <use xlink:href="#check-circle-fill" />
+        </svg>
+        <div>
+            ${message}
+        </div>`;
+
+        setTimeout(function() {
+
+            showSuccess.classList.add('d-done');
+
+        }, 3000);
+
+    }
+    //Add category to database
+    function addCategory() {
+
+        var cname = $('#cname').val();
+        if (cname != '') {
+
+            $.ajax({
+                type: "post",
+                url: "pages/class.php",
+                data: {
+                    catname: cname
+                },
+                success: function(data, status) {
+                    // console.log(status);
+                    $('#addCategoryModal').modal('hide');
+
+                    successMessage('Category added success');
+                    setTimeout(function() {
+
+                        onReload();
+                    }, 2000);
+
+                }
+            });
+        } else {
+            $('#check-validation').css({
+                'display': 'block',
+                'color': 'red'
+            })
+
+        }
+
+    }
+    //Delete Category
+    function delCategory(cid) {
+        var catid = cid;
+
+        $.ajax({
+            type: "post",
+            url: "pages/class.php",
+            data: {
+                cid: catid
+            },
+            success: function(data, status) {
+                $('#delconfirmbox' + catid).modal('hide');
+                successMessage('Category deleted success');
+                setTimeout(function() {
+
+                    onReload();
+                }, 2000);
+            }
+
+        })
+    }
+
+    //Edit category function
+    function editCategory(cid) {
+        // alert(id);
+        var ucatid = cid;
+        var ucname = $('#ucname' + ucatid).val();
+        if (ucname != '') {
+
+            $.ajax({
+                type: 'post',
+                url: 'pages/class.php',
+                data: {
+                    ucid: ucatid,
+                    ucname: ucname
+
+                },
+                success: function(data, status) {
+                    // console.log(data)
+                    $('#editCategoryModal' + ucatid).modal('hide');
+                    successMessage('Category updated success');
+                    setTimeout(function() {
+
+                        onReload();
+                    }, 3000);
+
+                }
+            })
+        } else {
+            $('#check-validation').css({
+                'display': 'block',
+                'color': 'red'
+            })
+        }
+    }
+</script>

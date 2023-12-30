@@ -1,9 +1,8 @@
-
 // function to get products from database
 function getproductrow(product) {
-    var productRow = "";
-    if(product){
-        productRow = `<tr>
+  var productRow = "";
+  if (product) {
+    productRow = `<tr>
         
         <td><img src="uploads/${product.photo}"></td>
         <td>${product.cat_id}</td>
@@ -30,78 +29,106 @@ function getproductrow(product) {
         </td>
 
     </tr>`;
-    }
-    return productRow;
+  }
+  return productRow;
 }
 
 // get products
 function getproducts() {
-    var pageno=$("#currentpage").val();
-    $.ajax({
-        url : "./pages/ajax.php",
-        type : "GET",
-        dataType : "json",
-        data : {page:pageno,action:'getallproducts'},
-        beforeSend : function(){
-            console.log("Waiting...");
-        },
-        success : function (rows) {
-            console.log(rows);
-            if (rows.players) {
-                var productslist = "";
-                $.each(rows.players, function(index,product) {
-                    productslist += getproductrow(product);
-                    // console.log(product);
-                });
-                
-                $("#ptable tbody").html(productslist);
-            }
-        },
-        error : function(){
-            
-            console.log("Oops...something");
-        }
-    })
+  var pageno = $("#currentpage").val();
+  $.ajax({
+    url: "./pages/ajax.php",
+    type: "GET",
+    dataType: "json",
+    data: { page: pageno, action: "getallproducts" },
+    beforeSend: function () {
+      console.log("Waiting...");
+    },
+    success: function (rows) {
+      console.log(rows);
+      if (rows.players) {
+        var productslist = "";
+        $.each(rows.players, function (index, product) {
+          productslist += getproductrow(product);
+          // console.log(product);
+        });
+
+        $("#ptable tbody").html(productslist);
+      }
+    },
+    error: function () {
+      console.log("Oops...something");
+    },
+  });
 }
 $(document).ready(function () {
+  console.log("document is ready loaded");
 
-
-    console.log("document is ready loaded")
-    //calling getproducts function 
-    getproducts()
+  // checking which page is loaded with hidden input value
+  if ($("#thispage").val() == "manage-product") {
+    //calling getproducts function
+    getproducts();
     //Adding products
-    $(document).on("submit","#addform",function(event){
-    console.log("form is resdy loaded")
-        event.preventDefault();
-        // ajax
-        $.ajax({
-            url : "./pages/ajax.php",
-            type : "POST",
-            dataType : "json",
-            data : new FormData(this),
-            processData : false,
-            contentType : false,
-            beforeSend : function(){
-                console.log("Waiting....Data..is..Loading");
-                // var formdata = new FormData(document.getElementById("addform"));
-                // formdata.forEach(function(value, key) {
-                //     console.log(key, value);
-                // });
-            },
-            success : function(response){
-                console.log(response);
-                if (response) {
-                    $("#addModal").modal("hide");
-                    $("#addform")[0].reset();
-                    getproducts()
+    $(document).on("submit", "#addform", function (event) {
+      console.log("form is resdy loaded");
+      event.preventDefault();
+      // ajax
+      $.ajax({
+        url: "./pages/ajax.php",
+        type: "POST",
+        dataType: "json",
+        data: new FormData(this),
+        processData: false,
+        contentType: false,
+        beforeSend: function () {
+          console.log("Waiting....Data..is..Loading");
+          // var formdata = new FormData(document.getElementById("addform"));
+          // formdata.forEach(function(value, key) {
+          //     console.log(key, value);
+          // });
+        },
+        success: function (response) {
+          console.log(response);
+          if (response) {
+            $("#addModal").modal("hide");
+            $("#addform")[0].reset();
+            getproducts();
+          }
+        },
+        error: function (request, error) {
+          console.log(arguments);
+          console.log("Error :" + error);
+        },
+      });
+    });
+  } else if ($("#thispage").val() == "category-page") {
+    console.log("category page is ready loaded");
+    //adding category
+    $(document).on("submit", "#addCatForm", function (event) {
+      console.log("Add category form is ready loaded");
+      event.preventDefault();
+    //   AJAX  
+    $.ajax({
+        url: "./pages/ajax.php",
+        type: "POST",
+        dataType: "json",
+        data: new FormData(this),
+        processData: false,
+        contentType: false,
+        beforeSend: function () {
+          console.log("Waiting....Data..is..Loading");
+        },
+        success: function (response) {
+          console.log(response);
+          if (response) {
 
-                }
-            },
-            error : function(request,error){
-                console.log(arguments);
-                console.log("Error :"+ error);
-
-            }
-        });
-    });  
+          }
+        },
+        error: function (request, error) {
+          console.log(arguments);
+          console.log("Error :" + error);
+        },
+    });
+    });
+  }
 });

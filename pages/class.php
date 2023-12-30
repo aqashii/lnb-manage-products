@@ -167,8 +167,13 @@ class Product
         $this->pdo = $pdo;
     }
     // function to add products
-    public function add($data)
+    public function add($data,$tbName)
     {
+        if ($tbName == "products") {
+            $tbName = "lb_products";
+        }else if($tbName == "category") {
+            $tbName = "categories";
+        }
         if (!empty($data)) {
             $fields = $placeholder = [];
             foreach ($data as $field => $value) {
@@ -181,7 +186,7 @@ class Product
         // $sql = "INSERT INTO {$this->tableProducts} (`cat_id`, `name`, `size`, `quality_code`, `color`, `drop_status`,
         // `sell_channel`, `brought_price`, `sell_price`,
         // `sold_price`, `sold_status`, `sold_date`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-            $sql = "INSERT INTO {$this->tableProducts} (". implode(',',
+            $sql = "INSERT INTO {$tbName} (". implode(',',
             $fields) .") VALUES (". implode(',',$placeholder).")";
             // var_dump($sql);
             $stmt = $this->pdo->prepare($sql);

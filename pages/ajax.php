@@ -69,11 +69,11 @@ if ($action == 'addproduct' && !empty($_POST)) {
             'sold_date'=> $psolddate,
         ];
     }
-    $playerid = $obj->add($playerData);
+    $playerid = $obj->add($playerData,$tbName="products");
     // echo $playerid ;
 
     if (!empty($playerid)) {
-        $player = $obj->getRow('id',$playerid,$tbName='product');
+        $player = $obj->getRow('id',$playerid,$tbName='products');
         echo json_encode($player);
         exit();
     }
@@ -104,6 +104,25 @@ if ($action =='getallproducts') {
     exit();
 }
 
+// add category
 
+if ($action == "addcategory" && !empty($_POST)) {
+    $catName = $_POST['cname'];
+    // echo $catName;
+
+    $playerId = (!empty($_POST['catId'])) ? $_POST['catId'] :'';
+
+    $playerData = [
+        'name' => $catName,
+    ];
+    $playerid = $obj->add($playerData,$tbName="category");
+    // echo $playerid ;
+
+    if (!empty($playerid)) {
+        $player = $obj->getRow('id',$playerid,$tbName='category');
+        echo json_encode($player);
+        exit();
+    }
+}
 
 ?>

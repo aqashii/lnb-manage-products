@@ -83,5 +83,6 @@ $getAllproducts = $dbObj->displayAllproducts();
         </ul>
     </nav>
     <input type="hidden" name="currentpage" value="1" id="currentpage" >
+    <input type="hidden" name="thispage" id="thispage" value="manage-product" >
 </div>
 
