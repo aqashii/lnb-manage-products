@@ -156,9 +156,11 @@ class database
     }
 }
 
+
 class Product
 {
-    protected $tableName = "lb_products";
+    protected $tableProducts = "lb_products";
+    protected $tableCategories = "categories";
     protected $pdo = NULL ;
     function __construct($pdo)
     {
@@ -176,10 +178,10 @@ class Product
             }
             // var_dump($placeholder);
         }
-        // $sql = "INSERT INTO {$this->tableName} (`cat_id`, `name`, `size`, `quality_code`, `color`, `drop_status`,
+        // $sql = "INSERT INTO {$this->tableProducts} (`cat_id`, `name`, `size`, `quality_code`, `color`, `drop_status`,
         // `sell_channel`, `brought_price`, `sell_price`,
         // `sold_price`, `sold_status`, `sold_date`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-            $sql = "INSERT INTO {$this->tableName} (". implode(',',
+            $sql = "INSERT INTO {$this->tableProducts} (". implode(',',
             $fields) .") VALUES (". implode(',',$placeholder).")";
             // var_dump($sql);
             $stmt = $this->pdo->prepare($sql);
@@ -198,9 +200,15 @@ class Product
     }
 
     //function to get rows
-    public function getRows($start = 0, $limit = 4)
+    public function getRows($start,$limit,$tbName)
     {
-        $sql = "SELECT * FROM {$this->tableName} ORDER BY
+        // $tableName = $tbName;
+        if ($tbName == "products") {
+            $tbName = "lb_products";
+        }else if($tbName == "category") {
+            $tbName = "categories";
+        }
+        $sql = "SELECT * FROM {$tbName} ORDER BY
         `id` DESC LIMIT {$start},{$limit} ";
         // var_dump($sql);
         $stmt = $this->pdo->prepare($sql);
@@ -213,8 +221,14 @@ class Product
         return $results;
     }
     //function to get single row
-    public function getRow($field,$value){
-        $sql = "SELECT * FROM {$this->tableName} WHERE 
+    public function getRow($field,$value,$tbName){
+        $tableName = $tbName;
+        if ($tableName == "products") {
+            $tableName = "lb_products";
+        }else if($tableName == "category") {
+            $tableName = "categories";
+        }
+        $sql = "SELECT * FROM {$tableName} WHERE 
         {$field} = :{$field}";
         // var_dump($sql);
         $stmt = $this->pdo->prepare($sql);
@@ -227,10 +241,16 @@ class Product
         return $result;
     }
     //function to count no.of rows
-    public function getCount()
+    public function getCount($tbName)
     {
+        $tableName = $tbName;
+        if ($tableName == "products") {
+            $tableName = "lb_products";
+        }else if($tableName == "category") {
+            $tableName = "categories";
+        }
         $sql = "SELECT count(*) as pcount FROM 
-        {$this->tableName}";
+        {$tableName}";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);

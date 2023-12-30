@@ -73,7 +73,7 @@ if ($action == 'addproduct' && !empty($_POST)) {
     // echo $playerid ;
 
     if (!empty($playerid)) {
-        $player = $obj->getRow('id',$playerid);
+        $player = $obj->getRow('id',$playerid,$tbName='product');
         echo json_encode($player);
         exit();
     }
@@ -91,14 +91,14 @@ if ($action =='getallproducts') {
     //start = 2-1=1 , 1*4 = ....4,5,6,7
     $start=($page-1)*$limit;
 
-    $products = $obj->getRows($start,$limit);
+    $products = $obj->getRows($start,$limit,$tbName='products');
     if (!empty($products)) {
         $productlist = $products;  
     }else{
         $productlist = [];
     }
     // echo json_encode($productlist);
-    $total = $obj->getCount();
+    $total = $obj->getCount($tbName='products');
     $prdArr=['count' => $total , 'players' => $productlist];
     echo json_encode($prdArr);
     exit();

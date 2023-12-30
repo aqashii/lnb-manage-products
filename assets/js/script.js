@@ -19,13 +19,14 @@ function getproductrow(product) {
         <td>${product.sold_price}</td>
         <td>${product.sold_date}</td>
         <td>
+        <div class="d-flex">
             <a href="#" class="me-3 viewp"  
             data-bs-target="#viewpModal" data-id="${product.id}" title="View" data-bs-toggle="modal"><i class="fa-solid fa-eye text-success"></i></a>
             <a href="#" 
             data-bs-toggle="modal" data-bs-target="#editpModal" 
             class="me-3 editp" data-id="${product.id}" title="Edit" ><i class="fa-solid fa-pen-to-square text-info"></i></a>
             <a href="#" class="me-3 deletep" data-id="${product.id}" title="Delete" ><i class="fa-solid fa-trash-can text-danger"></i></a>
-
+        </div>
         </td>
 
     </tr>`;
