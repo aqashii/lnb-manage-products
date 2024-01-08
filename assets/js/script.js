@@ -121,7 +121,8 @@ $(document).ready(function () {
         success: function (response) {
           console.log(response);
           if (response) {
-
+            $("#addCategoryModal").modal("hide");
+            $("#addCatForm")[0].reset();
           }
         },
         error: function (request, error) {
