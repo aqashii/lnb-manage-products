@@ -65,10 +65,7 @@ $getAllproducts = $dbObj->displayAllproducts();
             </tr>
         </thead>
         <tbody>
-            <!-- Add your table data rows here -->
-            <!-- foreach loop for display all products -->
-
-            <!-- End foreach loop -->
+<!-- table body of all products -->
         </tbody>
     </table>
 
@@ -82,6 +79,8 @@ $getAllproducts = $dbObj->displayAllproducts();
             <li class="page-item"><a class="page-link" href="#">Next</a></li>
         </ul>
     </nav>
+
+    <!-- hidden input fields -->
     <input type="hidden" name="currentpage" value="1" id="currentpage" >
     <input type="hidden" name="thispage" id="thispage" value="manage-product" >
 </div>

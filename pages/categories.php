@@ -34,9 +34,11 @@ $categories = $dbObj->getCategory();
 
 <!-- table of categories -->
 <div class="container">
+    <!-- modal includes -->
+    <?php include 'editcat.php'; ?>
     <h3>Categories</h3>
-    <table class="table">
-        <thead>
+    <table class="table" id="cat_table">
+        <thead class="table-dark text-center" >
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Name</th>
@@ -46,64 +48,22 @@ $categories = $dbObj->getCategory();
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($categories as $key => $value) {
-            ?>
-                <tr>
-                    <th scope="row"><?= $value['id'] ?></th>
-                    <td><?= $value['name'] ?>
-                        <!-- Modal for Edit Category -->
-                        <div class="modal fade" id="editCategoryModal<?= $value['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Edit category</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="mb-3">
-                                            <label for="" class="form-label">Category Name</label>
-                                            <input value="<?= $value['name'] ?>" type="text" class="form-control" id="ucname<?= $value['id'] ?>" required>
-
-                                            <div id="check-validation" style="display: none;">
-                                                Please provide name!
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="button" id="btn-add" onclick="editCategory(cid = '<?= $value['id']; ?>');" data-bs-dismiss="" class="btn btn-primary">Add</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td><button id="edit-btn" type="button" data-bs-toggle="modal" data-bs-target="#editCategoryModal<?= $value['id'] ?>" class="btn btn-primary">Edit</button>
-                        <button data-bs-target="#delconfirmbox<?= $value['id'] ?>" data-bs-toggle="modal" id="delete" type="button" class="btn btn-danger">Delete</button>
-                        <!-- Delete Confirmation box modal -->
-                        <div class="modal" tabindex="-1" id="delconfirmbox<?= $value['id'] ?>">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Confirm Now</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>Are you want to delete...?</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                                        <button type="button" onclick="delCategory(<?= $value['id'] ?>)" class="btn btn-primary">Yes</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            <?php } ?>
+    <!-- table body of categories -->
         </tbody>
     </table>
 </div>
+<!-- page nation -->
+<nav aria-label="Page navigation example" id="pagination">
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled   "><a class="page-link" href="#">Previous</a></li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        </ul>
+    </nav>
 <!-- hidden inputs -->
+<input type="hidden" name="currentpage" value="1" id="currentpage" >
 <input type="hidden" name="thispage" id="thispage" value="category-page" >
 
 <!-- show message div -->

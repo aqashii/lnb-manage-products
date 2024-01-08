@@ -282,6 +282,25 @@ class Product
         }
 
     }
+    // get category By Id
+    function getCategoryById($catid)
+    {
+        $query = "SELECT name FROM `categories` WHERE `id` = ?";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(1, $catid, PDO::PARAM_STR);
+
+        if ($stmt->execute()) {
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($result !== false) {
+                return $result;
+            } else {
+                return $result = "";
+            }
+        } else {
+            $errorInfo = $stmt->errorInfo();
+            echo $errorInfo[2];
+        }
+    }
     //function to update
     //function to delete
     //function to search

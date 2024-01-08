@@ -93,13 +93,25 @@ if ($action =='getallproducts') {
 
     $products = $obj->getRows($start,$limit,$tbName='products');
     if (!empty($products)) {
-        $productlist = $products;  
+        // get category by id
+        foreach ($products as $key => $value) {
+            $catId = $value['cat_id'];
+            $catName = $obj->getCategoryById($catId);
+            $products[$key]['cat_id'] = $catName['name'];
+
+        }
+        // var_dump($products);
+        $productlist = $products; 
+
     }else{
         $productlist = [];
     }
     // echo json_encode($productlist);
     $total = $obj->getCount($tbName='products');
     $prdArr=['count' => $total , 'players' => $productlist];
+    //get category name by id
+
+
     echo json_encode($prdArr);
     exit();
 }
@@ -123,6 +135,28 @@ if ($action == "addcategory" && !empty($_POST)) {
         echo json_encode($player);
         exit();
     }
+}
+if ($action == "getallcategories"){
+    $page=(!empty($_GET['page'])) ? $_GET['page']:1;
+    $limit=4;
+    //page =2
+    //limit =4
+    //start = 2-1=1 , 1*4 = ....4,5,6,7
+    $start=($page-1)*$limit;
+
+    $categories = $obj->getRows($start,$limit,$tbName='category');
+
+    if(!empty($categories)){
+        $categorylist = $categories ;
+    }else{
+        $categorylist = [];
+    }
+    // echo json_encode($categorylist);
+    $total = $obj->getCount($tbName='category');
+    $catArr=['count' => $total , 'categories' => $categorylist];
+    echo json_encode($catArr);
+    exit();
+
 }
 
 ?>

@@ -33,6 +33,22 @@ function getproductrow(product) {
   return productRow;
 }
 
+//function to get categories from database
+function getCategoryRow(category) {
+  var categoryRow = "";
+  if (category) {
+    categoryRow = `<tr>
+    <th scope="row">${category.id}</th>
+    <td>${category.name}</td>
+    <td><button id="edit-btn" type="button" class="btn btn-primary" data-id="${category.id}" data-bs-toggle="modal" data-bs-target="#editCatModal">Edit</button>
+        <button id="delete" type="button" class="btn btn-danger">Delete</button>
+
+    </td>
+</tr>`;
+  }
+  return categoryRow;
+}
+
 // get products
 function getproducts() {
   var pageno = $("#currentpage").val();
@@ -61,6 +77,35 @@ function getproducts() {
     },
   });
 }
+
+// get categories
+function getCategories() {
+  var pageno = $("#currentpage").val();
+  // ajax
+  $.ajax({
+    url: "./pages/ajax.php",
+    type: "GET",
+    dataType: "json",
+    data: { page: pageno, action: "getallcategories" },
+    beforeSend: function () {
+      console.log("Categories is waiting....");
+    },
+    success: function (rows) {
+      console.log(rows);
+      if (rows.categories) {
+        var categorieslist = "";
+        $.each(rows.categories, function (index, category) {
+          categorieslist += getCategoryRow(category);
+        });
+        $("#cat_table tbody").html(categorieslist);
+      }
+    },
+    error: function () {
+      console.log("Oops...something...");
+    },
+  });
+}
+
 $(document).ready(function () {
   console.log("document is ready loaded");
 
@@ -103,12 +148,14 @@ $(document).ready(function () {
     });
   } else if ($("#thispage").val() == "category-page") {
     console.log("category page is ready loaded");
+    // call get all categories
+    getCategories();
     //adding category
     $(document).on("submit", "#addCatForm", function (event) {
       console.log("Add category form is ready loaded");
       event.preventDefault();
-    //   AJAX  
-    $.ajax({
+      //   AJAX
+      $.ajax({
         url: "./pages/ajax.php",
         type: "POST",
         dataType: "json",
@@ -123,13 +170,14 @@ $(document).ready(function () {
           if (response) {
             $("#addCategoryModal").modal("hide");
             $("#addCatForm")[0].reset();
+            getCategories();
           }
         },
         error: function (request, error) {
           console.log(arguments);
           console.log("Error :" + error);
         },
-    });
+      });
     });
   }
 });
