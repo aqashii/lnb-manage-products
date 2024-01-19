@@ -10,12 +10,12 @@ function pagination(totalpages,currentpages) {
 
     for(let p=1; p<=totalpages; p++){
       const activeClass = currentpages == p ? "active":"";
-      pagelist += `<li class="page-item ${activeClass}"><a class="page-link" href="#" data-page="${p}">${p}</a></li>`;
+      pagelist += `<li class="page-item ${activeClass}"><a class="page-link" href="#" data-pagenumber="${p}">${p}</a></li>`;
     }
 
     
     const nextClass = currentpages == totalpages ?"disabled":"";
-    pagelist += `<li class="page-item ${nextClass}"><a class="page-link" href="#" data-page="${currentpages+1}">Next</a></li>`;
+    pagelist += `<li class="page-item ${nextClass}"><a class="page-link" href="#" data-pagenumber="${currentpages+1}">Next</a></li>`;
     pagelist += `</ul>`;
   }
   
@@ -92,10 +92,16 @@ function getproducts() {
         var productslist = "";
         $.each(rows.players, function (index, product) {
           productslist += getproductrow(product);
-          // console.log(product);
         });
-
+        
         $("#ptable tbody").html(productslist);
+        // console.log(rows.count);
+        let totalproducts = rows.count;
+        // console.log(totalproducts);
+        let totalpages = Math.ceil(parseInt(totalproducts)/4);
+        // console.log(totalpages);
+        const currentpages = $("#currentpage").val();
+        pagination(totalpages,currentpages);
       }
     },
     error: function () {
@@ -172,6 +178,18 @@ $(document).ready(function () {
         },
       });
     });
+    getproducts();
+    //on click event for pagination
+    $(document).on("click","ul.pagination li a",function (event) {
+      event.preventDefault();
+      const pagenum = $(this).data("pagenumber");
+      
+      $("#currentpage").val(pagenum);
+      getproducts();
+      // alert(1);
+    });
+    getproducts();
+
   } else if ($("#thispage").val() == "category-page") {
     console.log("category page is ready loaded");
     // call get all categories
