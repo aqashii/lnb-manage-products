@@ -302,6 +302,10 @@ class Product
         }
     }
     //function to update
+    public function update($data,$id){
+
+    }
+
     //function to delete
     //function to search
 
