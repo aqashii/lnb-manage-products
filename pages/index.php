@@ -1,7 +1,12 @@
 <?php
 
 
-if ($_GET['page'] == 'addproduct') {
+if(empty($_GET)){
+    header("Location:?page=manageproduct");
+
+}
+
+else if ($_GET['page'] == 'addproduct') {
     include("add_product.php");
 }
 
