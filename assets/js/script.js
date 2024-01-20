@@ -6,7 +6,7 @@ function pagination(totalpages,currentpages) {
     currentpages = parseInt(currentpages);
     pagelist += `<ul class="pagination justify-content-center">`;
     const prevClass = currentpages == 1 ?"disabled":"";
-    pagelist += `<li class="page-item ${prevClass}"><a class="page-link" href="#" data-page="${currentpages-1}">Previous</a></li>`;
+    pagelist += `<li class="page-item ${prevClass}"><a class="page-link" href="#" data-pagenumber="${currentpages-1}">Previous</a></li>`;
 
     for(let p=1; p<=totalpages; p++){
       const activeClass = currentpages == p ? "active":"";
