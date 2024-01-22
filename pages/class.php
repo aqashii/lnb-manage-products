@@ -302,7 +302,40 @@ class Product
         }
     }
     //function to update
-    public function update($data,$id){
+    public function update($data,$id,$tbName){
+
+        if ($tbName == "products") {
+            $tbName = "lb_products";
+        }else if($tbName == "category") {
+            $tbName = "categories";
+        }
+
+        if(!empty($data)){
+            $fields = "";
+            $x = 1;
+            $fieldsCount = count($data);
+            foreach($data as $field=>$value){
+                $fields.= "{$field}=:{$field}";
+                if($x<$fieldsCount){
+                    $fields.= ",";
+                }
+                $x++;
+
+            }
+        }
+
+        $sql = "UPDATE {$tbName} SET {$fields} where id=:id";
+        $stmt = $this->pdo->prepare($sql);
+
+        try{
+            $this->pdo->beginTransaction();
+            $data['id'] = $id;
+            $stmt->execute($data);
+            $this->pdo->commit();
+        }catch (PDOException $e) {
+            echo "Error ". $e->getMessage();
+            $this->pdo->rollback();
+        }
 
     }
 
