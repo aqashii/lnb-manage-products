@@ -190,6 +190,29 @@ $(document).ready(function () {
     });
     getproducts();
 
+    // onclick event for Editing...
+    $(document).on("click","a.editp",function (){
+      var pid = $(this).data("id");
+      alert(pid);
+
+      $.ajax({
+        url: "./pages/ajax.php",
+        type: "GET",
+        dataType: "json",
+        data: { id: pid, action: "editproduct" },
+        beforeSend: function () {
+          console.log("Edit Waiting...");
+        },
+        success: function (rows) {
+          console.log(rows);
+          
+        },
+        error: function () {
+          console.log("Oops...something");
+        },
+      });
+    })
+
   } else if ($("#thispage").val() == "category-page") {
     console.log("category page is ready loaded");
     // call get all categories
