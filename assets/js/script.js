@@ -193,7 +193,7 @@ $(document).ready(function () {
     // onclick event for Editing...
     $(document).on("click","a.editp",function (){
       var pid = $(this).data("id");
-      alert(pid);
+      // alert(pid);
 
       $.ajax({
         url: "./pages/ajax.php",
@@ -205,6 +205,21 @@ $(document).ready(function () {
         },
         success: function (rows) {
           console.log(rows);
+          if (rows) {
+            $("#p_name").val(rows.name);
+            $("#p_size").val(rows.size);
+            $("#p_color").val(rows.color);
+            $("#p_quality option[value='"+ rows.quality_code +"']").attr("selected", "selected");
+            $("#dropstatus option[value='"+ rows.drop_status +"']").attr("selected", "selected");
+            $("#sell_channel option[value='"+ rows.sell_channel +"']").attr("selected", "selected");
+            $("#soldstatus option[value='"+ rows.sold_status +"']").attr("selected", "selected");
+            $("#p_category option[value='"+ rows.cat_id +"']").attr("selected", "selected");
+            $("#p_brought_price").val(rows.brought_price);
+            $("#p_sell_price").val(rows.sell_price);
+            $("#p_sold_price").val(rows.sold_price);
+            $("#p_sold_date").val(rows.sold_date);
+            
+          }
           
         },
         error: function () {

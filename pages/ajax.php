@@ -159,4 +159,16 @@ if ($action == "getallcategories"){
 
 }
 
+// action to perform edit products
+if($action == "editproduct"){
+    $playerId = (!empty($_GET['id'])) ? $_GET['id'] : "";
+    if (!empty($playerId)) {
+
+        $product = $obj->getRow('id',$playerId,$tbName='products');
+        echo json_encode($product);
+        exit();
+        
+    }
+}
+
 ?>
