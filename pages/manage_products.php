@@ -32,7 +32,7 @@ $getAllproducts = $dbObj->displayAllproducts();
         </div>
         <div class="col-2">
     <?php include 'addForm.php' ?>
-           <button data-bs-toggle="modal" data-bs-target="#addModal" class="btn btn-dark">
+           <button data-bs-toggle="modal" data-bs-target="#addModal" class="btn btn-dark" id="addNewBtn">
                 Add New
             </button>
         </div>
@@ -48,8 +48,8 @@ $getAllproducts = $dbObj->displayAllproducts();
             <tr>
                 <!-- <th scope="col">ID</th> -->
                 <th scope="col">Photo</th>
-                <th scope="col">Category Name</th>
                 <th scope="col">Name</th>
+                <th scope="col">Category Name</th>
                 <th scope="col">Size</th>
                 <th scope="col">Quality Code</th>
                 <th scope="col">Color</th>

@@ -66,10 +66,18 @@ if ($action == 'addproduct' && !empty($_POST)) {
             'sell_price'=> $psellprice,
             'sold_status'=> $psoldstatus,
             'sold_price'=> $psoldprice,
-            'sold_date'=> $psolddate,
+            'sold_date'=> $psolddate,   
         ];
     }
-    $playerid = $obj->add($playerData,$tbName="products");
+    // var_dump($playerData);
+    // exit();
+    if ($playerid) {
+        $obj->update($playerData, $playerid, $tbName="products");
+        
+    }else{
+
+        $playerid = $obj->add($playerData,$tbName="products");
+    }
     // echo $playerid ;
 
     if (!empty($playerid)) {
@@ -77,6 +85,7 @@ if ($action == 'addproduct' && !empty($_POST)) {
         echo json_encode($player);
         exit();
     }
+    
 }
 
 

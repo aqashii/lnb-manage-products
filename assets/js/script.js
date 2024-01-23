@@ -31,8 +31,8 @@ function getproductrow(product) {
     productRow = `<tr>
         
         <td><img src="uploads/${product.photo}"></td>
-        <td>${product.cat_id}</td>
         <td>${product.name}</td>
+        <td>${product.cat_id}</td>
         <td>${product.size}</td>
         <td>${product.quality_code}</td>
         <td>${product.color}</td>
@@ -48,7 +48,7 @@ function getproductrow(product) {
             <a href="#" class="me-3 viewp"  
             data-bs-target="#viewpModal" data-id="${product.id}" title="View" data-bs-toggle="modal"><i class="fa-solid fa-eye text-success"></i></a>
             <a href="#" 
-            data-bs-toggle="modal" data-bs-target="#editpModal" 
+            data-bs-toggle="modal" data-bs-target="#addModal" 
             class="me-3 editp" data-id="${product.id}" title="Edit" ><i class="fa-solid fa-pen-to-square text-info"></i></a>
             <a href="#" class="me-3 deletep" data-id="${product.id}" title="Delete" ><i class="fa-solid fa-trash-can text-danger"></i></a>
         </div>
@@ -160,21 +160,22 @@ $(document).ready(function () {
         beforeSend: function () {
           console.log("Waiting....Data..is..Loading");
           // var formdata = new FormData(document.getElementById("addform"));
+          // console.log(formdata);
           // formdata.forEach(function(value, key) {
           //     console.log(key, value);
           // });
         },
         success: function (response) {
-          console.log(response);
+          // console.log(response);
           if (response) {
             $("#addModal").modal("hide");
             $("#addform")[0].reset();
             getproducts();
           }
         },
-        error: function (request, error) {
+        error: function (jqXHR, textStatus, errorThrown) {
           console.log(arguments);
-          console.log("Error :" + error);
+          console.log("Error :" + textStatus, errorThrown);
         },
       });
     });
@@ -218,6 +219,7 @@ $(document).ready(function () {
             $("#p_sell_price").val(rows.sell_price);
             $("#p_sold_price").val(rows.sold_price);
             $("#p_sold_date").val(rows.sold_date);
+            $("#productId").val(rows.id);
             
           }
           
@@ -226,7 +228,13 @@ $(document).ready(function () {
           console.log("Oops...something");
         },
       });
-    })
+    });
+
+    // on click event for addnew Button
+    $("#addNewBtn").on("click",function () {
+      $("#addform")[0].reset();
+      $("#productId").val("");
+    });
 
   } else if ($("#thispage").val() == "category-page") {
     console.log("category page is ready loaded");

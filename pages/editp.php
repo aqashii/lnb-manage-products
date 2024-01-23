@@ -103,7 +103,7 @@
 
                     <!-- hidden fields -->
 
-                    <input type="hidden" name="action" id="updateproduct" value="updateproduct">
+                    <input type="hidden" name="action" id="addproduct" value="s">
                     <input type="hidden" name="productId" id="productId">
 
                 </div>

@@ -192,6 +192,7 @@ class Product
             $stmt = $this->pdo->prepare($sql);
             try{
                 $this->pdo->beginTransaction();
+                // var_dump($data);
                 $stmt->execute($data);
                 $lastInsertedId = $this->pdo->lastInsertId();
                 $this->pdo->commit();
@@ -323,17 +324,22 @@ class Product
 
             }
         }
+        // var_dump($fields);
+        // exit();
 
-        $sql = "UPDATE {$tbName} SET {$fields} where id=:id";
+        $sql = "UPDATE {$tbName} SET {$fields} where id=:pid";
         $stmt = $this->pdo->prepare($sql);
-
+        // var_dump($sql);
+        // exit();
         try{
             $this->pdo->beginTransaction();
-            $data['id'] = $id;
+            $data['pid'] = $id;
+            // var_dump($data);
+            // exit();
             $stmt->execute($data);
             $this->pdo->commit();
         }catch (PDOException $e) {
-            echo "Error ". $e->getMessage();
+            error_log("Error ". $e->getMessage());
             $this->pdo->rollback();
         }
 
