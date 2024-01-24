@@ -37,8 +37,10 @@ $getAllproducts = $dbObj->displayAllproducts();
             </button>
         </div>
     </div>
+    <div class="alert text-center alert-success displaymessage d-none" role="alert">
+      
+    </div>
 </div>
-
 <div class="container mt-5">
         <!-- modal includes -->
     <?php include 'viewp.php' ?>

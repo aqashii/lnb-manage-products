@@ -346,6 +346,27 @@ class Product
     }
 
     //function to delete
+    public function deleteRow($id,$tbName){
+        if ($tbName == "products") {
+            $tbName = "lb_products";
+        }else if($tbName == "category") {
+            $tbName = "categories";
+        }
+
+        $sql = "DELETE FROM {$tbName} WHERE id=:id";
+        $stmt = $this->pdo->prepare($sql);
+        // var_dump($sql);
+        // exit();
+        try{
+           $stmt->execute([':id'=>$id]);
+           if($stmt->rowCount()>0){
+            return true;
+           }
+        }catch (PDOException $e) {
+            error_log("Error ". $e->getMessage());
+            return false;
+        }
+    }
     //function to search
 
 }

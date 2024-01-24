@@ -73,15 +73,18 @@ if ($action == 'addproduct' && !empty($_POST)) {
     // exit();
     if ($playerid) {
         $obj->update($playerData, $playerid, $tbName="products");
+        $message = "Product Updated Successfully";
         
     }else{
 
         $playerid = $obj->add($playerData,$tbName="products");
+        $message = "Product Added Successfully";
     }
     // echo $playerid ;
 
     if (!empty($playerid)) {
         $player = $obj->getRow('id',$playerid,$tbName='products');
+        $player['message'] = $message ;
         echo json_encode($player);
         exit();
     }
@@ -174,10 +177,33 @@ if($action == "editproduct"){
     if (!empty($playerId)) {
 
         $product = $obj->getRow('id',$playerId,$tbName='products');
+        $cat_id = $product['cat_id'];
+
+        // var_dump($cat_id);
+        $category = $obj->getRow('id',$cat_id,$tbName='category');
+        $product["cat_name"] = $category["name"];
+
+        // var_dump($product);
         echo json_encode($product);
         exit();
         
     }
 }
 
+// action to perform delete row
+if ($action == "deleteproduct"){
+    $productId = (!empty($_GET['id'])) ? $_GET['id'] : "";
+    
+    if(!empty($productId)){
+        $isdeleted = $obj->deleteRow($productId,$tbName="products");
+        if($isdeleted){
+            $displaymessage = ['delete'=>1];
+
+        }else{
+            $displaymessage = ['delete'=>0];
+        }
+        echo json_encode($displaymessage);
+        exit();
+    }
+}
 ?>

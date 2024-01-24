@@ -170,6 +170,7 @@ $(document).ready(function () {
           if (response) {
             $("#addModal").modal("hide");
             $("#addform")[0].reset();
+            $(".displaymessage").removeClass("d-none").html(response.message).fadeIn().delay(2500).fadeOut();
             getproducts();
           }
         },
@@ -233,8 +234,124 @@ $(document).ready(function () {
     // on click event for addnew Button
     $("#addNewBtn").on("click",function () {
       $("#addform")[0].reset();
+      $("#addform select").prop('selectedIndex', 0);
       $("#productId").val("");
     });
+
+    //on click event for deleting product
+    $(document).on("click","a.deletep", function (e){
+      e.preventDefault();
+      var pid = $(this).data("id");
+      if(confirm("Are you sure want to delete this item...?")){
+
+        $.ajax({
+          url: "./pages/ajax.php",
+          type: "GET",
+          dataType: "json",
+          data: { id: pid, action: "deleteproduct" },
+          beforeSend: function () {
+            console.log("Deleting...");
+          },
+          success: function (res) {
+            if(res.delete == 1){
+              $(".displaymessage").removeClass("d-none").html("Product was Deleted Successfull").fadeIn().delay(2500).fadeOut();
+              getproducts();
+              console.log("done......");
+            }
+          },
+          error: function () {
+            console.log("Oops...something");
+          },
+        
+        
+        
+        });
+
+      }
+    });
+
+    // on click event for view product 
+    $(document).on("click","a.viewp",function(){
+      var pid = $(this).data("id");
+
+      $.ajax({
+        url: "./pages/ajax.php",
+        type: "GET",
+        dataType: "json",
+        data: { id: pid, action: "editproduct" },
+        beforeSend: function () {
+          console.log("View Waiting...");
+        },
+        success:function(product){
+          console.log(product);
+
+          const viewdata = `<div class="container">
+
+          <div class="row">
+              <div class="col-md-12 text-center">
+                  <img src="uploads/${product.photo}">
+              </div>
+              <div class="col-md-6">
+              <label for="" class="form-label"><b>Name:</b>  ${product.name}</label>
+              
+              </div>
+              <div class="col-md-6">
+              <label for="" class="form-label"><b>Category:</b>  ${product.cat_name}</label>
+              
+              </div>
+              <div class="col-md-6">
+              <label for="" class="form-label"><b>Size:</b>  ${product.size}</label>
+              
+              </div>
+              <div class="col-md-6">
+              <label for="" class="form-label"><b>Quality Code:</b>  ${product.quality_code}</label>
+              
+              </div>
+              <div class="col-md-6">
+              <label for="" class="form-label"><b>Color:</b>  ${product.color}</label>
+              
+              </div>
+              <div class="col-md-6">
+              <label for="" class="form-label"><b>Drop Status:</b>  ${product.drop_status}</label>
+              
+              </div>
+              <div class="col-md-6">
+              <label for="" class="form-label"><b>Sell Channel:</b>  ${product.sell_channel}</label>
+              
+              </div>
+              <div class="col-md-6">
+              <label for="" class="form-label"><b>Brought Price:</b>  ${product.brought_price}</label>
+              
+              </div>
+              <div class="col-md-6">
+              <label for="" class="form-label"><b>Sell Price:</b>  ${product.sell_price}</label>
+              
+              </div>
+              <div class="col-md-6">
+              <label for="" class="form-label"><b>Sold Status:</b>  ${product.sold_status}</label>
+              
+              </div>
+              <div class="col-md-6">
+              <label for="" class="form-label"><b>Sold Price:</b>  ${product.sold_price}</label>
+              
+              </div>
+              <div class="col-md-6">
+              <label for="" class="form-label"><b>Sold Date:</b>  ${product.sold_date}</label>
+              
+              </div>
+
+          </div>
+      </div>`;
+      $("#viewbody").html(viewdata);
+
+        },
+        error:function () {
+          console.log("Oops...something");
+        }
+      
+      });
+
+    })
 
   } else if ($("#thispage").val() == "category-page") {
     console.log("category page is ready loaded");
