@@ -30,6 +30,15 @@ if ($action == 'addproduct' && !empty($_POST)) {
     $psoldprice = $_POST['p_sold_price'];
     $psolddate = $_POST['p_sold_date'];
     $pimage = $_FILES['p_photo'];
+
+    // empty field checking 
+    if($pdropstatus == "No"){
+        $psellchannel = "";
+    }
+    if($psoldstatus == "No"){
+        $psoldprice = 0;
+        $psolddate = 0;
+    }
     // var_dump($pimage['name']);
     // exit();
 
@@ -68,6 +77,7 @@ if ($action == 'addproduct' && !empty($_POST)) {
             'sold_price'=> $psoldprice,
             'sold_date'=> $psolddate,   
         ];
+        // var_dump($playerData);
     }
     // var_dump($playerData);
     // exit();
