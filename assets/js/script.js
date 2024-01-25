@@ -66,8 +66,12 @@ function getCategoryRow(category) {
     categoryRow = `<tr>
     <th scope="row">${category.id}</th>
     <td>${category.name}</td>
-    <td><button id="edit-btn" type="button" class="btn btn-primary" data-id="${category.id}" data-bs-toggle="modal" data-bs-target="#editCatModal">Edit</button>
-        <button id="delete" type="button" class="btn btn-danger">Delete</button>
+    <td><div class="d-flex">
+            <a href="#" 
+            data-bs-toggle="modal" data-bs-target="#addCategoryModal" 
+            class="me-3 editcat" data-id="${category.id}" title="Edit" ><i class="fa-solid fa-pen-to-square text-info"></i></a>
+            <a href="#" class="me-3 deletecat" data-id="${category.id}" title="Delete" ><i class="fa-solid fa-trash-can text-danger"></i></a>
+        </div>
 
     </td>
 </tr>`;
