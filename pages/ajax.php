@@ -119,7 +119,12 @@ if ($action =='getallproducts') {
         foreach ($products as $key => $value) {
             $catId = $value['cat_id'];
             $catName = $obj->getCategoryById($catId);
-            $products[$key]['cat_id'] = $catName['name'];
+            if(!empty($catName)){
+
+                $products[$key]['cat_id'] = $catName['name'];
+            }else{
+                $products[$key]['cat_id'] = "";
+            }
 
         }
         // var_dump($products);
@@ -227,7 +232,12 @@ if($action == "editproduct"){
 
         // var_dump($cat_id);
         $category = $obj->getRow('id',$cat_id,$tbName='category');
-        $product["cat_name"] = $category["name"];
+        if(!empty($category)){
+
+            $product["cat_name"] = $category["name"];
+        }else{
+            $product["cat_name"] = "";
+        }
 
         // var_dump($product);
         echo json_encode($product);
