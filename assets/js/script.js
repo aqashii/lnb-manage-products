@@ -1,26 +1,26 @@
 // function for pagination
 
-function pagination(totalpages,currentpages) {
+function pagination(totalpages, currentpages) {
   var pagelist = "";
-  if (totalpages>1) {
+  if (totalpages > 1) {
     currentpages = parseInt(currentpages);
     pagelist += `<ul class="pagination justify-content-center">`;
-    const prevClass = currentpages == 1 ?"disabled":"";
-    pagelist += `<li class="page-item ${prevClass}"><a class="page-link" href="#" data-pagenumber="${currentpages-1}">Previous</a></li>`;
+    const prevClass = currentpages == 1 ? "disabled" : "";
+    pagelist += `<li class="page-item ${prevClass}"><a class="page-link" href="#" data-pagenumber="${currentpages - 1}">Previous</a></li>`;
 
-    for(let p=1; p<=totalpages; p++){
-      const activeClass = currentpages == p ? "active":"";
+    for (let p = 1; p <= totalpages; p++) {
+      const activeClass = currentpages == p ? "active" : "";
       pagelist += `<li class="page-item ${activeClass}"><a class="page-link" href="#" data-pagenumber="${p}">${p}</a></li>`;
     }
 
-    
-    const nextClass = currentpages == totalpages ?"disabled":"";
-    pagelist += `<li class="page-item ${nextClass}"><a class="page-link" href="#" data-pagenumber="${currentpages+1}">Next</a></li>`;
+
+    const nextClass = currentpages == totalpages ? "disabled" : "";
+    pagelist += `<li class="page-item ${nextClass}"><a class="page-link" href="#" data-pagenumber="${currentpages + 1}">Next</a></li>`;
     pagelist += `</ul>`;
   }
-  
+
   $("#pagination").html(pagelist);
-  
+
 }
 
 
@@ -97,15 +97,15 @@ function getproducts() {
         $.each(rows.players, function (index, product) {
           productslist += getproductrow(product);
         });
-        
+
         $("#ptable tbody").html(productslist);
         // console.log(rows.count);
         let totalproducts = rows.count;
         // console.log(totalproducts);
-        let totalpages = Math.ceil(parseInt(totalproducts)/4);
+        let totalpages = Math.ceil(parseInt(totalproducts) / 4);
         // console.log(totalpages);
         const currentpages = $("#currentpage").val();
-        pagination(totalpages,currentpages);
+        pagination(totalpages, currentpages);
       }
     },
     error: function () {
@@ -134,6 +134,13 @@ function getCategories() {
           categorieslist += getCategoryRow(category);
         });
         $("#cat_table tbody").html(categorieslist);
+
+        let totalproducts = rows.count;
+        // console.log(totalproducts);
+        let totalpages = Math.ceil(parseInt(totalproducts) / 4);
+        // console.log(totalpages);
+        const currentpages = $("#currentpage").val();
+        pagination(totalpages, currentpages);
       }
     },
     error: function () {
@@ -186,10 +193,10 @@ $(document).ready(function () {
     });
     getproducts();
     //on click event for pagination
-    $(document).on("click","ul.pagination li a",function (event) {
+    $(document).on("click", "ul.pagination li a", function (event) {
       event.preventDefault();
       const pagenum = $(this).data("pagenumber");
-      
+
       $("#currentpage").val(pagenum);
       getproducts();
       // alert(1);
@@ -197,7 +204,7 @@ $(document).ready(function () {
     getproducts();
 
     // onclick event for Editing...
-    $(document).on("click","a.editp",function (){
+    $(document).on("click", "a.editp", function () {
       var pid = $(this).data("id");
       // alert(pid);
 
@@ -215,19 +222,19 @@ $(document).ready(function () {
             $("#p_name").val(rows.name);
             $("#p_size").val(rows.size);
             $("#p_color").val(rows.color);
-            $("#p_quality option[value='"+ rows.quality_code +"']").attr("selected", "selected");
-            $("#dropstatus option[value='"+ rows.drop_status +"']").attr("selected", "selected");
-            $("#sell_channel option[value='"+ rows.sell_channel +"']").attr("selected", "selected");
-            $("#soldstatus option[value='"+ rows.sold_status +"']").attr("selected", "selected");
-            $("#p_category option[value='"+ rows.cat_id +"']").attr("selected", "selected");
+            $("#p_quality option[value='" + rows.quality_code + "']").attr("selected", "selected");
+            $("#dropstatus option[value='" + rows.drop_status + "']").attr("selected", "selected");
+            $("#sell_channel option[value='" + rows.sell_channel + "']").attr("selected", "selected");
+            $("#soldstatus option[value='" + rows.sold_status + "']").attr("selected", "selected");
+            $("#p_category option[value='" + rows.cat_id + "']").attr("selected", "selected");
             $("#p_brought_price").val(rows.brought_price);
             $("#p_sell_price").val(rows.sell_price);
             $("#p_sold_price").val(rows.sold_price);
             $("#p_sold_date").val(rows.sold_date);
             $("#productId").val(rows.id);
-            
+
           }
-          
+
         },
         error: function () {
           console.log("Oops...something");
@@ -236,17 +243,17 @@ $(document).ready(function () {
     });
 
     // on click event for addnew Button
-    $("#addNewBtn").on("click",function () {
+    $("#addNewBtn").on("click", function () {
       $("#addform")[0].reset();
       $("#addform select").prop('selectedIndex', 0);
       $("#productId").val("");
     });
 
     //on click event for deleting product
-    $(document).on("click","a.deletep", function (e){
+    $(document).on("click", "a.deletep", function (e) {
       e.preventDefault();
       var pid = $(this).data("id");
-      if(confirm("Are you sure want to delete this item...?")){
+      if (confirm("Are you sure want to delete this item...?")) {
 
         $.ajax({
           url: "./pages/ajax.php",
@@ -257,7 +264,7 @@ $(document).ready(function () {
             console.log("Deleting...");
           },
           success: function (res) {
-            if(res.delete == 1){
+            if (res.delete == 1) {
               $(".displaymessage").removeClass("d-none").html("Product was Deleted Successfull").fadeIn().delay(2500).fadeOut();
               getproducts();
               console.log("done......");
@@ -266,16 +273,16 @@ $(document).ready(function () {
           error: function () {
             console.log("Oops...something");
           },
-        
-        
-        
+
+
+
         });
 
       }
     });
 
     // on click event for view product 
-    $(document).on("click","a.viewp",function(){
+    $(document).on("click", "a.viewp", function () {
       var pid = $(this).data("id");
 
       $.ajax({
@@ -286,7 +293,7 @@ $(document).ready(function () {
         beforeSend: function () {
           console.log("View Waiting...");
         },
-        success:function(product){
+        success: function (product) {
           console.log(product);
 
           const viewdata = `<div class="container">
@@ -346,13 +353,13 @@ $(document).ready(function () {
 
           </div>
       </div>`;
-      $("#viewbody").html(viewdata);
+          $("#viewbody").html(viewdata);
 
         },
-        error:function () {
+        error: function () {
           console.log("Oops...something");
         }
-      
+
       });
 
     })
@@ -389,6 +396,16 @@ $(document).ready(function () {
           console.log("Error :" + error);
         },
       });
+    });
+
+    //on click event for pagination
+    $(document).on("click", "ul.pagination li a", function (event) {
+      event.preventDefault();
+      const pagenum = $(this).data("pagenumber");
+
+      $("#currentpage").val(pagenum);
+      getCategories();
+      // alert(1);
     });
   }
 });

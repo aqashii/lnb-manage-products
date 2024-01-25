@@ -54,13 +54,13 @@ $categories = $dbObj->getCategory();
 </div>
 <!-- page nation -->
 <nav aria-label="Page navigation example" id="pagination">
-        <ul class="pagination justify-content-center">
+        <!-- <ul class="pagination justify-content-center">
             <li class="page-item disabled   "><a class="page-link" href="#">Previous</a></li>
             <li class="page-item active"><a class="page-link" href="#">1</a></li>
             <li class="page-item"><a class="page-link" href="#">2</a></li>
             <li class="page-item"><a class="page-link" href="#">3</a></li>
             <li class="page-item"><a class="page-link" href="#">Next</a></li>
-        </ul>
+        </ul> -->
     </nav>
 <!-- hidden inputs -->
 <input type="hidden" name="currentpage" value="1" id="currentpage" >
@@ -79,7 +79,5 @@ $categories = $dbObj->getCategory();
             <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
         </symbol>
     </svg>
-    <div class="alert alert-success d-flex d-none align-items-center my-2" id="successMessage" role="alert">
-
-    </div>
+    
 </div>
