@@ -177,6 +177,23 @@ if($action == "editcategory"){
         
     }
 }
+// action to perform deleting category
+if ($action == "deletecategory") {
+    $CatId = (!empty($_GET['id'])) ? $_GET['id'] : "";
+
+    if(!empty($CatId)){
+        $isdeleted = $obj->deleteRow($CatId,$tbName="category");
+        if($isdeleted){
+            $displaymessage = ['delete'=>1];
+
+        }else{
+            $displaymessage = ['delete'=>0];
+        }
+        echo json_encode($displaymessage);
+        exit();
+    }
+    
+}
 if ($action == "getallcategories"){
     $page=(!empty($_GET['page'])) ? $_GET['page']:1;
     $limit=4;

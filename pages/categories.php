@@ -1,4 +1,3 @@
-
 <!-- search bar and addnew -->
 <div class="container py-2">
     <div class="row mb-3">
@@ -20,7 +19,16 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-12" style="text-align: -webkit-center;">
+<div class="demo">
 
+    <div class="alert alert-success displaymessage d-none" role="alert" style="width: 80%;">
+</div>
+        </div>
+    </div>
+
+</div>
 <!-- table of categories -->
 <div class="container">
     <!-- modal includes -->
@@ -35,8 +43,8 @@
                     <th scope="col">ID</th>
                     <th scope="col">Name</th>
                     <th scope="col">Action</th>
-    
-    
+
+
                 </tr>
             </thead>
             <tbody>

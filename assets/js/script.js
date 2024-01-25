@@ -447,5 +447,34 @@ $(document).ready(function () {
       $("#catId").val("");
 
     });
+
+    // On click event for clicking delete icon
+    $(document).on("click","a.deletecat", function(event) {
+
+      event.preventDefault();
+      var catid = $(this).data("id");
+      if (confirm("Are you sure want to delete this item...?")) {
+
+      $.ajax({
+        url: "./pages/ajax.php",
+        type: "GET",
+        dataType: "json",
+        data: { id: catid, action: "deletecategory" },
+        beforeSend: function () {
+          console.log("Deleting...category:- "+catid);
+        },
+        success: function (response){
+          if (response.delete == 1) {
+            $(".displaymessage").removeClass("d-none").html("Category was Deleted Successfull").fadeIn().delay(2500).fadeOut();
+            getCategories();
+            console.log("deleted..done....");
+          }
+        },
+        error: function () {
+          console.log("Oops...something");
+        },
+      });
+    }
+    })
   }
 });
