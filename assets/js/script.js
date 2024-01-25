@@ -410,5 +410,42 @@ $(document).ready(function () {
       getCategories();
       // alert(1);
     });
+
+    // On click event for edit category
+    $(document).on("click","a.editcat", function (){
+      
+      var catid = $(this).data('id');
+      // alert(catid);
+
+      $.ajax({
+        url: "./pages/ajax.php",
+        type: "GET",
+        dataType: "json",
+        data: { id: catid, action: "editcategory" },
+        beforeSend: function () {
+          console.log("Category Edit Waiting...");
+        },
+        success: function(response){
+          console.log(response);
+          if (response) {
+            $("#cname").val(response.name);
+            $("#catId").val(response.id);
+          }
+
+        },
+        error: function () {
+          console.log("Oops...something");
+        }
+
+      });
+      
+    });
+
+    // On click Event For click Add new button
+    $("#AddNewBtn").on("click",function () {
+      $("#addCatForm")[0].reset();
+      $("#catId").val("");
+
+    });
   }
 });

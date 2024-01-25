@@ -1,15 +1,4 @@
-<?php
-include("class.php");
 
-$pdo = dbConfig::connect();
-$dbObj = new database($pdo);
-
-$categories = $dbObj->getCategory();
-
-
-
-
-?>
 <!-- search bar and addnew -->
 <div class="container py-2">
     <div class="row mb-3">
@@ -25,7 +14,7 @@ $categories = $dbObj->getCategory();
         </div>
         <div class="col-2">
             <?php include 'addCatForm.php' ?>
-            <button data-bs-toggle="modal" data-bs-target="#addCategoryModal" class="btn btn-dark">
+            <button data-bs-toggle="modal" data-bs-target="#addCategoryModal" id="AddNewBtn" class="btn btn-dark">
                 Add New
             </button>
         </div>

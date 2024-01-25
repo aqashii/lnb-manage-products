@@ -144,18 +144,37 @@ if ($action == "addcategory" && !empty($_POST)) {
     $catName = $_POST['cname'];
     // echo $catName;
 
-    $playerId = (!empty($_POST['catId'])) ? $_POST['catId'] :'';
+    $CatId = (!empty($_POST['catId'])) ? $_POST['catId'] :'';
 
     $playerData = [
         'name' => $catName,
     ];
-    $playerid = $obj->add($playerData,$tbName="category");
+
+    // checking request updation or insertion of category
+    if (!empty($CatId)) {
+        $obj->update($playerData,$CatId,$tbName="category");
+    }else{
+        
+        $CatId = $obj->add($playerData,$tbName="category");
+    }
     // echo $playerid ;
 
-    if (!empty($playerid)) {
-        $player = $obj->getRow('id',$playerid,$tbName='category');
+    if (!empty($CatId)) {
+        $player = $obj->getRow('id',$CatId,$tbName='category');
         echo json_encode($player);
         exit();
+    }
+}
+// action to perform edit category
+if($action == "editcategory"){
+    $CatId = (!empty($_GET['id'])) ? $_GET['id'] : "";
+
+    if (!empty($CatId)) {
+
+        $category = $obj->getRow('id',$CatId,$tbName='category');
+        echo json_encode($category);
+        exit();
+        
     }
 }
 if ($action == "getallcategories"){
@@ -216,4 +235,7 @@ if ($action == "deleteproduct"){
         exit();
     }
 }
+
+
+
 ?>
