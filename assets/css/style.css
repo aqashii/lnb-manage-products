@@ -11,3 +11,6 @@ td{
     display: flex!important;
     justify-content: center;
 }
+th {
+    text-align: center;
+}

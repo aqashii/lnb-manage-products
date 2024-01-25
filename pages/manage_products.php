@@ -45,6 +45,7 @@ $getAllproducts = $dbObj->displayAllproducts();
         <!-- modal includes -->
     <?php include 'viewp.php' ?>
     <?php include 'editp.php' ?>
+    <div class="table-responsive">
     <table class="table" id="ptable">
         <thead class="table-dark text-center">
             <tr>
@@ -70,7 +71,7 @@ $getAllproducts = $dbObj->displayAllproducts();
 <!-- table body of all products -->
         </tbody>
     </table>
-
+    </div>
     <!-- page nation -->
     <nav aria-label="Page navigation example" id="pagination">
         <!-- <ul class="pagination justify-content-center">

@@ -60,10 +60,11 @@ function getproductrow(product) {
 }
 
 //function to get categories from database
-function getCategoryRow(category) {
+function getCategoryRow(category,count) {
   var categoryRow = "";
   if (category) {
     categoryRow = `<tr>
+    <th scope="row">${count}</th>
     <th scope="row">${category.id}</th>
     <td>${category.name}</td>
     <td><div class="d-flex">
@@ -130,8 +131,10 @@ function getCategories() {
       console.log(rows);
       if (rows.categories) {
         var categorieslist = "";
+        var count = 1;
         $.each(rows.categories, function (index, category) {
-          categorieslist += getCategoryRow(category);
+          categorieslist += getCategoryRow(category,count);
+          count++;
         });
         $("#cat_table tbody").html(categorieslist);
 
