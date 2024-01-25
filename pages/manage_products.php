@@ -27,7 +27,7 @@ $getAllproducts = $dbObj->displayAllproducts();
                      bg-dark"><i class="fa-solid text-light
                       fa-magnifying-glass"></i></span>
                 </div>
-                <input type="text" name="" id="" class="form-control" placeholder="Search product...">
+                <input type="text" name="" id="searchinput" class="form-control" placeholder="Search product...">
             </div>
         </div>
         <div class="col-2">

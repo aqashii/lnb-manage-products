@@ -263,6 +263,14 @@ if ($action == "deleteproduct"){
     }
 }
 
+// action to perform searching products
+if ($action == "searchproduct") {
+    $queryString = (!empty($_GET['searchQuery'])) ? trim($_GET['searchQuery']) : '';
+    $results = $obj->searchProduct($queryString,$start=0,$limit=4,$tbName="products");
+    echo json_encode($results);
+    exit();
+}
+
 
 
 ?>

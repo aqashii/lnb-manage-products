@@ -369,5 +369,26 @@ class Product
     }
     //function to search
 
+    public function searchProduct($searchText,$start,$limit,$tbName){
+
+        if ($tbName == "products") {
+            $tbName = "lb_products";
+        }else if($tbName == "category") {
+            $tbName = "categories";
+        }
+
+        $sql = "SELECT * FROM {$tbName} WHERE name LIKE :search ORDER BY id DESC LIMIT {$start},{$limit}";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':search'=>"{$searchText}%"]);
+
+        if ($stmt->rowCount()>0) {
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }else{
+            $result = [];
+        }
+
+        return $result;
+    }
+
 }
 ?>

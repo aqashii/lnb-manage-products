@@ -365,6 +365,43 @@ $(document).ready(function () {
 
       });
 
+    });
+
+    // searching products
+    $(document).on("keyup",function (){
+      const searchText = $("#searchinput").val();
+      console.log(searchText);
+      if(searchText.length > 1){
+
+        $.ajax({
+          url: "./pages/ajax.php",
+          type: "GET",
+          dataType: "json",
+          data: { searchQuery: searchText, action: "searchproduct" },
+
+          success: function(products){
+            if (products) {
+              
+              var productslist = "";
+  
+              $.each(products,function(index,product){
+                productslist += getproductrow(product);
+              });
+              $("#ptable tbody").html(productslist);
+              $("#pagination").hide();
+            }
+          },
+          error: function () {
+            console.log("Oops...something");
+          },
+
+        });
+
+      }else{
+        getproducts();
+        $("#pagination").show();
+
+      }
     })
 
   } else if ($("#thispage").val() == "category-page") {
@@ -475,6 +512,6 @@ $(document).ready(function () {
         },
       });
     }
-    })
+    });
   }
 });
