@@ -155,6 +155,13 @@ function getCategories() {
 $(document).ready(function () {
   console.log("document is ready loaded");
 
+// toggle nav bar in responsive
+  var menu = $(".menu");
+  $("#toggle-btn").on("click",function(){
+    // alert("heklo");
+    menu.toggleClass('is-active');
+  });
+
   // checking which page is loaded with hidden input value
   if ($("#thispage").val() == "manage-product") {
     //calling getproducts function

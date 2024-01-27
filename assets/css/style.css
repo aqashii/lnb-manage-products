@@ -14,3 +14,11 @@ td{
 th {
     text-align: center;
 }
+.header-menu {
+    padding: 10px;
+}
+
+.header-menu .menu.is-active {
+    display: block;
+
+}
