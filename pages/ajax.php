@@ -274,6 +274,13 @@ if ($action == "searchproduct") {
     exit();
 }
 
+// action to perform searching Categories
+if ($action == "searchcategory") {
+    $queryString = (!empty($_GET['searchQuery'])) ? trim($_GET['searchQuery']) : '';
+    $results = $obj->searchProduct($queryString,$start=0,$limit=4,$tbName="category");
+    echo json_encode($results);
+    exit();
+}
 
 
 ?>

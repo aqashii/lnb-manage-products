@@ -27,11 +27,7 @@
                 <a class="nav-link" href="">Dashboard <span class="sr-only"></span></a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Products</a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="?page=addproduct">Add Product</a></li>
-                    <li><a class="dropdown-item" href="?page=manageproduct">Manage Product</a></li>
-                </ul>
+                <a class="nav-link " href="?page=manageproduct">Products</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="?page=categories">Categories</a>

@@ -133,6 +133,7 @@ function getCategories() {
         var categorieslist = "";
         var count = 1;
         $.each(rows.categories, function (index, category) {
+          // console.log(index);
           categorieslist += getCategoryRow(category, count);
           count++;
         });
@@ -529,5 +530,46 @@ $(document).ready(function () {
         });
       }
     });
+
+        // searching Categories
+        $(document).on("keyup", function () {
+          const searchText = $("#searchinput").val();
+          console.log(searchText);
+          if (searchText.length > 1) {
+    
+            $.ajax({
+              url: "./pages/ajax.php",
+              type: "GET",
+              dataType: "json",
+              data: { searchQuery: searchText, action: "searchcategory" },
+              beforeSend: function (){
+                console.log("searching...")
+              },
+    
+              success: function (categories) {
+                if (categories) {
+    
+                  var categorieslist = "";
+                  var count = 1;
+                  $.each(categories, function (index, category) {
+                    categorieslist += getCategoryRow(category,count);
+                    count++;
+                  });
+                  $("#cat_table tbody").html(categorieslist);
+                  $("#pagination").hide();
+                }
+              },
+              error: function () {
+                console.log("Oops...something");
+              },
+    
+            });
+    
+          } else {
+            getCategories();
+            $("#pagination").show();
+    
+          }
+        });
   }
 });
