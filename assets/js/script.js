@@ -60,7 +60,7 @@ function getproductrow(product) {
 }
 
 //function to get categories from database
-function getCategoryRow(category,count) {
+function getCategoryRow(category, count) {
   var categoryRow = "";
   if (category) {
     categoryRow = `<tr>
@@ -133,7 +133,7 @@ function getCategories() {
         var categorieslist = "";
         var count = 1;
         $.each(rows.categories, function (index, category) {
-          categorieslist += getCategoryRow(category,count);
+          categorieslist += getCategoryRow(category, count);
           count++;
         });
         $("#cat_table tbody").html(categorieslist);
@@ -155,9 +155,9 @@ function getCategories() {
 $(document).ready(function () {
   console.log("document is ready loaded");
 
-// toggle nav bar in responsive
+  // toggle nav bar in responsive
   var menu = $(".menu");
-  $("#toggle-btn").on("click",function(){
+  $("#toggle-btn").on("click", function () {
     // alert("heklo");
     menu.toggleClass('is-active');
   });
@@ -229,6 +229,7 @@ $(document).ready(function () {
         success: function (rows) {
           console.log(rows);
           if (rows) {
+            $("#modaltitle").html("Edit Product");
             $("#p_name").val(rows.name);
             $("#p_size").val(rows.size);
             $("#p_color").val(rows.color);
@@ -242,7 +243,6 @@ $(document).ready(function () {
             $("#p_sold_price").val(rows.sold_price);
             $("#p_sold_date").val(rows.sold_date);
             $("#productId").val(rows.id);
-
           }
 
         },
@@ -254,6 +254,7 @@ $(document).ready(function () {
 
     // on click event for addnew Button
     $("#addNewBtn").on("click", function () {
+      $("#modaltitle").html("Add New Product");
       $("#addform")[0].reset();
       $("#addform select").prop('selectedIndex', 0);
       $("#productId").val("");
@@ -375,10 +376,10 @@ $(document).ready(function () {
     });
 
     // searching products
-    $(document).on("keyup",function (){
+    $(document).on("keyup", function () {
       const searchText = $("#searchinput").val();
       console.log(searchText);
-      if(searchText.length > 1){
+      if (searchText.length > 1) {
 
         $.ajax({
           url: "./pages/ajax.php",
@@ -386,12 +387,12 @@ $(document).ready(function () {
           dataType: "json",
           data: { searchQuery: searchText, action: "searchproduct" },
 
-          success: function(products){
+          success: function (products) {
             if (products) {
-              
+
               var productslist = "";
-  
-              $.each(products,function(index,product){
+
+              $.each(products, function (index, product) {
                 productslist += getproductrow(product);
               });
               $("#ptable tbody").html(productslist);
@@ -404,14 +405,19 @@ $(document).ready(function () {
 
         });
 
-      }else{
+      } else {
         getproducts();
         $("#pagination").show();
 
       }
     })
 
-  } else if ($("#thispage").val() == "category-page") {
+  }
+  // END MANAGE PRODUCT PAGE FUNCTIONS
+
+
+  // STARTED CATEGORY PAGE FUNCTIONS
+  else if ($("#thispage").val() == "category-page") {
     console.log("category page is ready loaded");
     // call get all categories
     getCategories();
@@ -457,8 +463,8 @@ $(document).ready(function () {
     });
 
     // On click event for edit category
-    $(document).on("click","a.editcat", function (){
-      
+    $(document).on("click", "a.editcat", function () {
+
       var catid = $(this).data('id');
       // alert(catid);
 
@@ -470,11 +476,12 @@ $(document).ready(function () {
         beforeSend: function () {
           console.log("Category Edit Waiting...");
         },
-        success: function(response){
+        success: function (response) {
           console.log(response);
           if (response) {
             $("#cname").val(response.name);
             $("#catId").val(response.id);
+            $("#exampleModalLabel").html("Edit Category");
           }
 
         },
@@ -483,43 +490,44 @@ $(document).ready(function () {
         }
 
       });
-      
+
     });
 
     // On click Event For click Add new button
-    $("#AddNewBtn").on("click",function () {
+    $("#AddNewBtn").on("click", function () {
+      $("#exampleModalLabel").html("Add New Category");
       $("#addCatForm")[0].reset();
       $("#catId").val("");
 
     });
 
     // On click event for clicking delete icon
-    $(document).on("click","a.deletecat", function(event) {
+    $(document).on("click", "a.deletecat", function (event) {
 
       event.preventDefault();
       var catid = $(this).data("id");
       if (confirm("Are you sure want to delete this item...?")) {
 
-      $.ajax({
-        url: "./pages/ajax.php",
-        type: "GET",
-        dataType: "json",
-        data: { id: catid, action: "deletecategory" },
-        beforeSend: function () {
-          console.log("Deleting...category:- "+catid);
-        },
-        success: function (response){
-          if (response.delete == 1) {
-            $(".displaymessage").removeClass("d-none").html("Category was Deleted Successfull").fadeIn().delay(2500).fadeOut();
-            getCategories();
-            console.log("deleted..done....");
-          }
-        },
-        error: function () {
-          console.log("Oops...something");
-        },
-      });
-    }
+        $.ajax({
+          url: "./pages/ajax.php",
+          type: "GET",
+          dataType: "json",
+          data: { id: catid, action: "deletecategory" },
+          beforeSend: function () {
+            console.log("Deleting...category:- " + catid);
+          },
+          success: function (response) {
+            if (response.delete == 1) {
+              $(".displaymessage").removeClass("d-none").html("Category was Deleted Successfull").fadeIn().delay(2500).fadeOut();
+              getCategories();
+              console.log("deleted..done....");
+            }
+          },
+          error: function () {
+            console.log("Oops...something");
+          },
+        });
+      }
     });
   }
 });
