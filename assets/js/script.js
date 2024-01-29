@@ -435,6 +435,7 @@ $(document).ready(function () {
           if (response) {
             $("#addCategoryModal").modal("hide");
             $("#addCatForm")[0].reset();
+            $(".displaymessage").removeClass("d-none").html(response.message).fadeIn().delay(2500).fadeOut();
             getCategories();
           }
         },

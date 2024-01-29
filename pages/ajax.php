@@ -158,14 +158,17 @@ if ($action == "addcategory" && !empty($_POST)) {
     // checking request updation or insertion of category
     if (!empty($CatId)) {
         $obj->update($playerData,$CatId,$tbName="category");
+        $message = "Category Updated Successfully";
     }else{
         
         $CatId = $obj->add($playerData,$tbName="category");
+        $message = "New Category Created";
     }
     // echo $playerid ;
 
     if (!empty($CatId)) {
         $player = $obj->getRow('id',$CatId,$tbName='category');
+        $player['message'] = $message ;
         echo json_encode($player);
         exit();
     }
