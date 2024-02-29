@@ -22,3 +22,11 @@ th {
     display: block;
 
 }
+
+.logout-btn{
+    color: #e3e3e3;
+    background-color: #03502d;
+}
+.logout-btn:hover {
+    border: 1px solid;
+}

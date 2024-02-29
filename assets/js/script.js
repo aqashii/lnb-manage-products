@@ -572,4 +572,24 @@ $(document).ready(function () {
           }
         });
   }
+
+  $("#logout-btn").on("click", function(){
+    console.log("Logout...clicked");
+    $.ajax({
+      url:"./login/logout.php",
+      type:"POST",
+
+      success:function(){
+        console.log("logouted...");
+        setTimeout(function(){
+          window.location = "./login";
+        },2000);
+      },
+      error: function(xhr, status, error){
+        // Handle error
+        console.error(error);
+    }
+    })
+
+  })
 });
